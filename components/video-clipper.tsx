@@ -1,13 +1,8 @@
-/* globals Image */
 import { useState, useEffect, useRef } from 'react';
-// import dynamic from 'next/dynamic';
 import Hls from 'hls.js';
 import logger from '../lib/logger';
 import Router from 'next/router';
 import 'media-chrome';
-import { breakpoints } from '../style-vars';
-
-// dynamic(() => import('media-chrome/dist/extras/media-clip-selector'), { ssr: false });
 
 type Props = {
   playbackId: string
@@ -38,7 +33,7 @@ declare global {
 
 const VideoClipper: React.FC<Props> = ({ playbackId, poster, onLoaded, onError }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const mediaRangeRef = useRef<HTMLElement | null>(null);
+  const clipSelectorRef = useRef<HTMLElement | null>(null);
   // const [isVertical, setIsVertical] = useState<boolean | null>();
   const [errorMessage, setErrorMessage] = useState('');
   const [isCreatingClip, setIsCreatingClip] = useState(false);
@@ -161,19 +156,17 @@ const VideoClipper: React.FC<Props> = ({ playbackId, poster, onLoaded, onError }
       }
       prevEndTime.current = endTime;
     }
-
-    console.log('debug new', startTime, endTime);
   }, [startTime, endTime]);
 
   useEffect(() => {
-    if (mediaRangeRef.current) {
-      mediaRangeRef.current.addEventListener('updated', ((evt: CustomEvent) => {
+    if (clipSelectorRef.current) {
+      clipSelectorRef.current.addEventListener('update', ((evt: CustomEvent) => {
         const { startTime, endTime } = evt.detail;
         setStartTime(startTime);
         setEndTime(endTime);
       }) as EventListener);
     }
-  }, [duration, mediaRangeRef]);
+  }, [duration, clipSelectorRef]);
 
   return (
     <>
@@ -187,10 +180,14 @@ const VideoClipper: React.FC<Props> = ({ playbackId, poster, onLoaded, onError }
             <track label="thumbnails" default kind="metadata" src={`https://image.mux.com/${playbackId}/storyboard.vtt`}></track>
           </video>
           <media-control-bar>
-            <media-play-button></media-play-button>
-            <media-clip-selector></media-clip-selector>
-            <media-mute-button></media-mute-button>
-            <media-volume-range></media-volume-range>
+            <div className="clip-selector">
+              <media-clip-selector ref={clipSelectorRef}></media-clip-selector>
+            </div>
+            <div className="buttons">
+              <media-play-button></media-play-button>
+              <media-mute-button></media-mute-button>
+              <media-volume-range></media-volume-range>
+            </div>
           </media-control-bar>
         </media-controller>
 
@@ -207,17 +204,20 @@ const VideoClipper: React.FC<Props> = ({ playbackId, poster, onLoaded, onError }
         }
         .video-container :global(media-control-bar) {
           opacity: 1;
+          width: 100%;
         }
-        .video-container :global(media-container) {
+        .video-container :global(media-controller) {
           margin-left: auto;
           margin-right: auto;
         }
+        .clip-selector {
+          width: 100%;
+        }
+        .buttons {
+          width: 100%;
+        }
         .times {
           color: white;
-        }
-        @media only screen and (min-width: ${breakpoints.md}px) {
-        }
-        @media only screen and (max-width: ${breakpoints.md}px) {
         }
       `}
       </style>
