@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
 import copy from 'copy-to-clipboard';
+
 import FullpageLoader from '../../../components/fullpage-loader';
-// import VideoPlayer from '../../../components/video-player';
+import VideoPlayer from '../../../components/video-player';
 import Layout from '../../../components/layout';
 import ReportForm from '../../../components/report-form';
 import { HOST_URL } from '../../../constants';
@@ -19,40 +19,6 @@ export type Props = {
   playbackId: string,
   shareUrl: string,
   poster: string
-};
-
-/*
-<VideoPlayer playbackId={playbackId} poster={poster} currentTime={startTime} onLoaded={() => setIsLoaded(true)} onError={onError} />}
-*/
-
-type VpProps = {
-  playbackId?: string,
-  poster?: string,
-  currentTime?: number,
-  onLoaded?: () => void,
-  onError?: () => void,
-}
-
-const VideoPlayer: React.FC<VpProps> = ({ playbackId, poster, currentTime, onLoaded, onError }) => {
-  useEffect(() => {
-    import('@mux/mux-video');
-    onLoaded();
-  }, []);
-
-  return (
-    <>
-      <mux-video controls muted poster={poster} env-key={process.env.NEXT_PUBLIC_MUX_ENV_KEY} playback-id={playbackId}></mux-video>
-      <style jsx>{`
-        :global(mux-video) {
-          width: 100%;
-          max-width: 500px;
-          position: static;
-          display: block;
-          height: auto;
-        }
-      `}</style>
-    </>
-  );
 };
 
 export const getStaticProps: GetStaticProps = async (context)  => {

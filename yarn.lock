@@ -597,6 +597,13 @@
     esdoc-ecmascript-proposal-plugin "^1.0.0"
     jsonwebtoken "^8.4.0"
 
+"@mux/mux-video@file:../../@muxinc/elements-mono/packages/mux-video":
+  version "0.1.0"
+  dependencies:
+    custom-video-element "^0.0.2"
+    hls.js "^1.0.9"
+    mux-embed "^4.1.1"
+
 "@mux/upchunk@^2.2":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@mux/upchunk/-/upchunk-2.2.2.tgz#52d629d435b50c32b2fed39566501a2210446805"
@@ -2112,6 +2119,11 @@ custom-event-polyfill@^1.0.7:
   resolved "https://registry.yarnpkg.com/custom-event-polyfill/-/custom-event-polyfill-1.0.7.tgz#9bc993ddda937c1a30ccd335614c6c58c4f87aee"
   integrity sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==
 
+custom-video-element@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/custom-video-element/-/custom-video-element-0.0.2.tgz#aead266cef4ad6bc046e269472744ff76e4d7e43"
+  integrity sha512-kkuWKjaHZfy6lVwNlbjbgbXxkQLsPbCARUwDiZyfdPQ2nbDJMuuaQUWDUpxhpkc3b3M30eqxjHbz86gfQyL9aQ==
+
 damerau-levenshtein@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.6.tgz#143c1641cb3d85c60c32329e26899adea8701791"
@@ -3361,6 +3373,11 @@ hls.js@^1.0.0:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.7.tgz#b4ab75e7a46650d02245a1da091efd15f07d16eb"
   integrity sha512-NsGaksvOuYNyTmu/w239EtYFMadFzIoDkmStc1FDRcrGmvxOfMGKad/hLj4NHoE8H1S+Q8dT7HufMJJ6yiht7g==
+
+hls.js@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.9.tgz#a3b92a0a2a4cdb3076c09639a8e06463b3a189f5"
+  integrity sha512-uUfvc53QawXMH8fRd2IGPEtWlujsiX/Xj8oW/tx+T8yY1kHRpI8o1brsLRGJMivAyNBtdB/3ZV4fTdZ+DAiCEQ==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
@@ -4827,6 +4844,11 @@ mux-embed@^3.3.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/mux-embed/-/mux-embed-3.5.0.tgz#3bbadfe66a8e9ae81ed20b2fe8b0466194bb8d19"
   integrity sha512-RjkWhps4PH2sKPHlPtUkgU5IUwqFRMlYtBNgQYw6ud5Jf2SCBnYElKW2iZCBEApeSHj+v0n7RP/bkWFKMhSNTg==
+
+mux-embed@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/mux-embed/-/mux-embed-4.1.1.tgz#d61c297c6043c59793ec1837b778b294d60a66cd"
+  integrity sha512-AUjuWWRrKJ8byyd4vrZvLrA8yQGV3eoZ70u9n0HvA8AdY67xt+YBEAQbh5TYHEKfXLf1WpZlB9UScjgegUkrbQ==
 
 nanoid@^3.1.16:
   version "3.1.22"
