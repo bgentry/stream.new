@@ -1,6 +1,7 @@
 import got from './got-client';
 import { HOST_URL } from '../constants';
 import { ModerationScores } from '../types';
+import { getImageBaseUrl } from './urlutils'
 
 const slackWebhook = process.env.SLACK_WEBHOOK_ASSET_READY;
 const moderatorPassword = process.env.SLACK_MODERATOR_PASSWORD;
@@ -75,7 +76,7 @@ const baseBlocks = ({ playbackId, assetId, duration }: {playbackId: string, asse
       text: 'Thumbnail',
       emoji: true,
     },
-    image_url: `https://image.mux.com/${playbackId}/storyboard.png`,
+    image_url: `${getImageBaseUrl()}/${playbackId}/storyboard.png`,
     alt_text: 'storyboard',
   },
   {
@@ -148,6 +149,22 @@ export const sendSlackAssetReady = async ({ playbackId, assetId, duration, googl
       blocks,
     },
   });
+  return null;
+};
+
+export const sendSlackAutoDeleteMessage = async ({ assetId, duration, hiveScores }: { assetId: string, duration: number, hiveScores?: ModerationScores }): Promise<null> => {
+  if (!slackWebhook) {
+    console.log('No slack webhook configured'); // eslint-disable-line no-console
+    return null;
+  }
+
+  await got.post(slackWebhook, {
+    json: {
+      text: `Auto-deleted by moderator: ${assetId} duration: ${duration}. ${JSON.stringify(hiveScores)}`,
+      icon_emoji: 'female-police-officer',
+    },
+  });
+
   return null;
 };
 
