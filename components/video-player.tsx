@@ -44,6 +44,7 @@ type SizedEvent = {
 const VideoPlayer = forwardRef<HTMLVideoElementWithPlyr, Props>(({ playbackId, poster, currentTime, onLoaded, onError }, ref) => {
   const videoRef = useRef<HTMLVideoElementWithPlyr>(null);
   const metaRef = useCombinedRefs(ref, videoRef);
+  const [aspectRatio, setAspectRatio] = useState('');
   // const playerRef = useRef<Plyr | null>(null);
   const [isVertical, setIsVertical] = useState<boolean | null>();
   // const [playerInitTime] = useState(Date.now());
@@ -54,6 +55,7 @@ const VideoPlayer = forwardRef<HTMLVideoElementWithPlyr, Props>(({ playbackId, p
     const [w, h] = [event.target.width, event.target.height];
     if (w && h) {
       setIsVertical((w / h) < 1);
+      setAspectRatio(`${w} / ${h}`);
       onLoaded();
     } else {
       onLoaded();
@@ -95,50 +97,64 @@ const VideoPlayer = forwardRef<HTMLVideoElementWithPlyr, Props>(({ playbackId, p
 
   useEffect(() => {
     import('@mux-elements/mux-video');
+    import('media-chrome');
   }, []);
 
   return (
     <>
       <div className='video-container'>
-        <mux-video
-          ref={metaRef}
-          env-key={process.env.NEXT_PUBLIC_MUX_ENV_KEY}
-          playback-id={playbackId}
-          poster={poster}
-          metadata-video-title={playbackId}
-          stream-type="vod"
-          controls
-          playsInline
-        />
+        <media-controller autohide="2">
+          <mux-video
+            slot="media"
+            ref={metaRef}
+            env-key={process.env.NEXT_PUBLIC_MUX_ENV_KEY}
+            playback-id={playbackId}
+            poster={poster}
+            metadata-video-title={playbackId}
+            stream-type="vod"
+            playsInline
+          />
+          <div slot="centered-chrome">
+            <media-seek-backward-button />
+            <media-play-button />
+            <media-seek-forward-button />
+          </div>
+          <media-control-bar class="seek-control-bar">
+            <media-time-range />
+            <media-time-display show-duration remaining />
+          </media-control-bar>
+          <media-control-bar>
+            <media-mute-button />
+            <media-playback-rate-button />
+            <media-pip-button />
+            <media-fullscreen-button />
+          </media-control-bar>
+        </media-controller>
       </div>
       <style jsx>{`
         :global(:root) {
-          --plyr-color-main: #1b1b1b;
-          --plyr-range-fill-background: #ccc;
-        }
-        :global(.plyr__controls button),
-        :global(.plyr__controls input) {
-          cursor: pointer;
         }
         .video-container {
           margin-bottom: 40px;
           margin-top: 40px;
           border-radius: 30px;
-        }
-        :global(.plyr:fullscreen video) {
-          max-width: initial;
-          max-height: initial;
           width: 100%;
-          height: 100%;
         }
-        video {
+        :global(mux-video) {
           display: block;
           max-width: 100%;
           max-height: 50vh;
           cursor: pointer;
         }
+        :global(media-controller) {
+          display: block;
+          aspect-ratio: ${aspectRatio};
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+        }
         @media only screen and (min-width: ${breakpoints.md}px) {
-          video {
+          :global(media-controller) {
             width: ${isVertical ? 'auto' : '1000px'};
             height: ${isVertical ? '600px' : 'auto'};
             max-height: 70vh;
@@ -146,10 +162,7 @@ const VideoPlayer = forwardRef<HTMLVideoElementWithPlyr, Props>(({ playbackId, p
           }
         }
         @media only screen and (max-width: ${breakpoints.md}px) {
-          :global(.plyr__volume, .plyr__menu, .plyr--pip-supported [data-plyr=pip]) {
-            display: none;
-          }
-          video: {
+          :global(media-controller) {
             width: 100%;
             height: 100%;
           }
