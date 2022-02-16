@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Mux from '@mux/mux-node';
 
-const { Video } = new Mux();
+const { Video } = new Mux({ baseUrl: 'https://api.aws-us-east-1.staging.mux.com' });
 
 export default async function assetHandler (req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { method } = req;

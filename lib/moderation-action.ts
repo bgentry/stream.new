@@ -3,7 +3,7 @@ import Mux from '@mux/mux-node';
 import { RequestError } from 'got';
 import got from './got-client';
 
-const { Video } = new Mux();
+const { Video } = new Mux({ baseUrl: 'https://api.aws-us-east-1.staging.mux.com' });
 
 const ADULT_SCORE_THRESHHOLD = 0.95;
 const VIOLENCE_SCORE_THRESHHOLD = 0.85;

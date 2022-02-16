@@ -1,9 +1,9 @@
 const deliveryDomain = process.env.NEXT_PUBLIC_MUX_BYO_DOMAIN || "mux.com";
 
 export function getStreamBaseUrl() {
-  return `https://stream.${deliveryDomain}`;
+  return `https://stream.staging.mux.com`;
 }
 
 export function getImageBaseUrl() {
-  return `https://image.${deliveryDomain}`;
+  return `https://image.staging.mux.com`;
 }
