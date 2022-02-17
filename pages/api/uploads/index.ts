@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         });
       } catch (e) {
         res.statusCode = 500;
-        console.error('Request error', e); // eslint-disable-line no-console
+        console.error('Request error', process.env.MUX_TOKEN_ID, process.env.MUX_TOKEN_SECRET, e); // eslint-disable-line no-console
         res.json({ error: 'Error creating upload' });
       }
       break;
